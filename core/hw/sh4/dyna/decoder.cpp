@@ -1127,9 +1127,9 @@ _end:
 	{
 		blk->guest_cycles*=1.5;
 	}
-	// Win CE boost
-	if (mmu_enabled())
-		blk->guest_cycles *= 1.5f;
+	// Boost dynarec always
+	/*if (mmu_enabled())*/
+		blk->guest_cycles *= 1.25f;
 
 	//make sure we don't use wayy-too-many cycles
 	blk->guest_cycles = std::min(blk->guest_cycles,max_cycles);
