@@ -17,7 +17,7 @@ HAVE_GL3      := 0
 FORCE_GLES    := 0
 STATIC_LINKING:= 0
 HAVE_TEXUPSCALE := 1
-HAVE_OPENMP   := 1
+HAVE_OPENMP   := 0
 HAVE_CHD      := 1
 HAVE_CLANG    ?= 0
 HAVE_CDROM    := 0
@@ -301,6 +301,7 @@ else ifeq ($(platform), classic_armv8_a35)
 
 # sun8i Allwinner H2+ / H3 for mainline Builds
 # like Orange PI, Nano PI, Banana PI, Tritium, Sunvell R69, AlphaCore2
+# Miyoo A30
 # by MPCORE-HUB/Liontek1985
 
 else ifeq ($(platform), sun8i)
@@ -313,8 +314,8 @@ else ifeq ($(platform), sun8i)
 	FORCE_GLES = 1
 	SINGLE_PREC_FLAGS = 1
 	CPUFLAGS += -DNO_ASM -DARM_ASM -frename-registers -ftree-vectorize
-	CFLAGS += -marm -mfloat-abi=hard -mtune=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard $(CPUFLAGS)
-	CXXFLAGS += -marm -mfloat-abi=hard -mtune=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard $(CPUFLAGS)
+	CFLAGS += -O2 -marm -mfloat-abi=hard -mtune=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard $(CPUFLAGS)
+	CXXFLAGS += -O2 -marm -mfloat-abi=hard -mtune=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard $(CPUFLAGS)
 	ifeq ($(HAVE_CLANG),0)
 		CFLAGS += -mvectorize-with-neon-quad
 		CXXFLAGS += -mvectorize-with-neon-quad
@@ -334,7 +335,8 @@ else ifeq ($(platform), sun8i)
 	PLATFORM_EXT := unix
 	WITH_DYNAREC=arm
 	HAVE_GENERIC_JIT = 0
-	CORE_DEFINES += -DLOW_END
+	CORE_DEFINES += -DLOW_END 
+	
 	
 #########################################
 
