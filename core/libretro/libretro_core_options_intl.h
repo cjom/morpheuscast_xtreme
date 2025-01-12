@@ -388,33 +388,10 @@ struct retro_core_option_v2_definition option_defs_ar[] = {
          { "1024x768",   OPTION_VAL_1024X768_AR },
          { "1280x960",   OPTION_VAL_1280X960_AR },
          { "1440x1080",  OPTION_VAL_1440X1080_AR },
-         { "1600x1200",  OPTION_VAL_1600X1200_AR },
-         { "1920x1440",  OPTION_VAL_1920X1440_AR },
-         { "2560x1920",  OPTION_VAL_2560X1920_AR },
-         { "2880x2160",  OPTION_VAL_2880X2160_AR },
-         { "3200x2400",  OPTION_VAL_3200X2400_AR },
-         { "3840x2880",  OPTION_VAL_3840X2880_AR },
-         { "4480x3360",  OPTION_VAL_4480X3360_AR },
-         { "5120x3840",  OPTION_VAL_5120X3840_AR },
-         { "5760x4320",  OPTION_VAL_5760X4320_AR },
-         { "6400x4800",  OPTION_VAL_6400X4800_AR },
-         { "7040x5280",  OPTION_VAL_7040X5280_AR },
-         { "7680x5760",  OPTION_VAL_7680X5760_AR },
-         { "8320x6240",  OPTION_VAL_8320X6240_AR },
-         { "8960x6720",  OPTION_VAL_8960X6720_AR },
-         { "9600x7200",  OPTION_VAL_9600X7200_AR },
-         { "10240x7680", OPTION_VAL_10240X7680_AR },
-         { "10880x8160", OPTION_VAL_10880X8160_AR },
-         { "11520x8640", OPTION_VAL_11520X8640_AR },
-         { "12160x9120", OPTION_VAL_12160X9120_AR },
-         { "12800x9600", OPTION_VAL_12800X9600_AR },
          { NULL, NULL },
       },
-#ifdef LOW_RES
-      "320x240",
-#else
       "640x480",
-#endif
+
    },
    {
       CORE_OPTION_NAME "_screen_rotation",
@@ -509,7 +486,7 @@ struct retro_core_option_v2_definition option_defs_ar[] = {
          { "disabled", NULL },
          { NULL, NULL },
       },
-      "enabled",
+      "disabled",
    },
    {
       CORE_OPTION_NAME "_widescreen_hack",
@@ -737,7 +714,7 @@ struct retro_core_option_v2_definition option_defs_ar[] = {
          { "16",  NULL },
          { NULL, NULL },
       },
-      "4",
+      "disabled",
    },
    {
       CORE_OPTION_NAME "_pvr2_filtering",
@@ -16778,33 +16755,9 @@ struct retro_core_option_v2_definition option_defs_eo[] = {
          { "1024x768",   OPTION_VAL_1024X768_EO },
          { "1280x960",   OPTION_VAL_1280X960_EO },
          { "1440x1080",  OPTION_VAL_1440X1080_EO },
-         { "1600x1200",  OPTION_VAL_1600X1200_EO },
-         { "1920x1440",  OPTION_VAL_1920X1440_EO },
-         { "2560x1920",  OPTION_VAL_2560X1920_EO },
-         { "2880x2160",  OPTION_VAL_2880X2160_EO },
-         { "3200x2400",  OPTION_VAL_3200X2400_EO },
-         { "3840x2880",  OPTION_VAL_3840X2880_EO },
-         { "4480x3360",  OPTION_VAL_4480X3360_EO },
-         { "5120x3840",  OPTION_VAL_5120X3840_EO },
-         { "5760x4320",  OPTION_VAL_5760X4320_EO },
-         { "6400x4800",  OPTION_VAL_6400X4800_EO },
-         { "7040x5280",  OPTION_VAL_7040X5280_EO },
-         { "7680x5760",  OPTION_VAL_7680X5760_EO },
-         { "8320x6240",  OPTION_VAL_8320X6240_EO },
-         { "8960x6720",  OPTION_VAL_8960X6720_EO },
-         { "9600x7200",  OPTION_VAL_9600X7200_EO },
-         { "10240x7680", OPTION_VAL_10240X7680_EO },
-         { "10880x8160", OPTION_VAL_10880X8160_EO },
-         { "11520x8640", OPTION_VAL_11520X8640_EO },
-         { "12160x9120", OPTION_VAL_12160X9120_EO },
-         { "12800x9600", OPTION_VAL_12800X9600_EO },
          { NULL, NULL },
       },
-#ifdef LOW_RES
-      "320x240",
-#else
       "640x480",
-#endif
    },
    {
       CORE_OPTION_NAME "_screen_rotation",
@@ -16899,7 +16852,7 @@ struct retro_core_option_v2_definition option_defs_eo[] = {
          { "disabled", NULL },
          { NULL, NULL },
       },
-      "enabled",
+      "disabled",
    },
    {
       CORE_OPTION_NAME "_widescreen_hack",
@@ -17127,7 +17080,7 @@ struct retro_core_option_v2_definition option_defs_eo[] = {
          { "16",  NULL },
          { NULL, NULL },
       },
-      "4",
+      "disabled",
    },
    {
       CORE_OPTION_NAME "_pvr2_filtering",
@@ -17234,11 +17187,7 @@ struct retro_core_option_v2_definition option_defs_eo[] = {
          { "enabled",  NULL },
          { NULL, NULL },
       },
-#ifdef LOW_END
       "disabled",
-#else
-      "enabled",
-#endif
    },
    {
       CORE_OPTION_NAME "_delay_frame_swapping",
