@@ -241,6 +241,7 @@ std::array<PostProcessShader, 8> PostProcessShader::shaders;
 
 void PostProcessor::Init()
 {
+	/*
 	this->width = screen_width;
 	this->height = screen_height;
 
@@ -292,11 +293,11 @@ void PostProcessor::Init()
 		glDisableVertexAttribArray(3);
 	}
 #endif
-	glCheck();
+	glCheck();*/
 }
 
 void PostProcessor::Term()
-{
+{/*
 	glcache.DeleteTextures(1, &texture);
 	texture = 0;
 	glDeleteFramebuffers(1, &framebuffer);
@@ -311,11 +312,11 @@ void PostProcessor::Term()
 #endif
 	vertexArray = 0;
 	PostProcessShader::term();
-	glCheck();
+	glCheck();*/
 }
 
 void PostProcessor::SelectFramebuffer()
-{
+{/*
 	if (framebuffer == 0)
 		Init();
 	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
@@ -350,5 +351,5 @@ void PostProcessor::Render(GLuint output_fbo)
 
    glcache.ClearColor(0.f, 0.f, 0.f, 0.f);
    glClear(GL_COLOR_BUFFER_BIT);
-   glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+   glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);*/
 }
