@@ -2,7 +2,7 @@ Flycast
 ===========
 Flycast is a multi-platform Sega Dreamcast emulator.
 
-This fork is purposed on faster low-end handheld devices like the miyoo a30 / R36s etc.
+This fork is purposed for a faster build for low-end handheld devices like the miyoo a30 / R36s etc.
 
 COMPILE FOR MIYOO A30
 =======================
