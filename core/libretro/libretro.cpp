@@ -400,6 +400,8 @@ static void set_variable_visibility(void)
    environ_cb(RETRO_ENVIRONMENT_SET_CORE_OPTIONS_DISPLAY, &option_display);
    option_display.key = CORE_OPTION_NAME "_per_content_vmus";
    environ_cb(RETRO_ENVIRONMENT_SET_CORE_OPTIONS_DISPLAY, &option_display);
+   option_display.key = CORE_OPTION_NAME "_sh4clock";
+   environ_cb(RETRO_ENVIRONMENT_SET_CORE_OPTIONS_DISPLAY, &option_display);
 
    /* only show, if categories not supported */
    option_display.visible = ((settings.System == DC_PLATFORM_DREAMCAST) &&
@@ -576,6 +578,33 @@ static void update_variables(bool first_startup)
       DEBUG_LOG(COMMON, "Got size: %u x %u.\n", screen_width, screen_height);
    }
 
+   var.key = CORE_OPTION_NAME "_sh4clock";
+
+      if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+      {
+
+         if (!strcmp(var.value, "d20"))
+            settings.dreamcast.sh4clock = 2.0;
+         else if (!strcmp(var.value, "d18"))
+            settings.dreamcast.sh4clock = 1.8;
+         else if (!strcmp(var.value, "d16"))
+            settings.dreamcast.sh4clock = 1.6;
+         else if (!strcmp(var.value, "d14"))
+            settings.dreamcast.sh4clock = 1.4;         
+         else if (!strcmp(var.value, "d12"))
+            settings.dreamcast.sh4clock = 1.2;
+         else if (!strcmp(var.value, "d10"))
+            settings.dreamcast.sh4clock = 1.0;
+          else if (!strcmp(var.value, "d9"))
+            settings.dreamcast.sh4clock = 0.9;
+          else if (!strcmp(var.value, "d8"))
+            settings.dreamcast.sh4clock = 0.8;
+          else if (!strcmp(var.value, "d7"))
+            settings.dreamcast.sh4clock = 0.7;
+          else if (!strcmp(var.value, "d6"))
+            settings.dreamcast.sh4clock = 0.6;
+      }
+
 
    var.key = CORE_OPTION_NAME "_cpu_mode";
 
@@ -732,7 +761,7 @@ static void update_variables(bool first_startup)
       	settings.rend.ModifierVolumes      = true;
    }
    else
-   	settings.rend.ModifierVolumes      = true;
+   	settings.rend.ModifierVolumes      = false;
 
    var.key = CORE_OPTION_NAME "_cable_type";
 
@@ -762,7 +791,7 @@ static void update_variables(bool first_startup)
          settings.dreamcast.broadcast = 4;
    }
    else
-         settings.dreamcast.broadcast = 4;
+         settings.dreamcast.broadcast = 0;
 
    var.key = CORE_OPTION_NAME "_framerate";
 
@@ -774,7 +803,7 @@ static void update_variables(bool first_startup)
          settings.UpdateMode = 1;
    }
    else
-      settings.UpdateMode = 0;
+      settings.UpdateMode = 1;
 
    var.key = CORE_OPTION_NAME "_region";
 
@@ -790,7 +819,7 @@ static void update_variables(bool first_startup)
          settings.dreamcast.region = 3;
    }
    else
-         settings.dreamcast.region = 3;
+         settings.dreamcast.region = 1;
 
    var.key = CORE_OPTION_NAME "_language";
 
@@ -812,7 +841,7 @@ static void update_variables(bool first_startup)
          settings.dreamcast.language = 6;
    }
    else
-         settings.dreamcast.language = 6;
+         settings.dreamcast.language = 1;
 
    var.key = CORE_OPTION_NAME "_div_matching";
 
@@ -834,10 +863,10 @@ static void update_variables(bool first_startup)
 
    var.key = CORE_OPTION_NAME "_anisotropic_filtering";
 
-   settings.rend.AnisotropicFiltering = 4;
+   settings.rend.AnisotropicFiltering = 0;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
-      if (!strcmp("off", var.value))
+      if (!strcmp("disabled", var.value))
       	settings.rend.AnisotropicFiltering = 1;
       else
       	settings.rend.AnisotropicFiltering = std::max(1, std::min(16, atoi(var.value)));
