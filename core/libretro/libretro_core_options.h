@@ -141,7 +141,7 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "enabled",  NULL },
          { NULL, NULL},
       },
-      "disabled",
+      "enabled",
    },
 #if defined(HAVE_OIT) || defined(HAVE_VULKAN)
    {
@@ -177,32 +177,9 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "1280x960",   NULL },
          { "1440x1080",  NULL },
          { "1600x1200",  NULL },
-         { "1920x1440",  NULL },
-         { "2560x1920",  NULL },
-         { "2880x2160",  NULL },
-         { "3200x2400",  NULL },
-         { "3840x2880",  NULL },
-         { "4480x3360",  NULL },
-         { "5120x3840",  NULL },
-         { "5760x4320",  NULL },
-         { "6400x4800",  NULL },
-         { "7040x5280",  NULL },
-         { "7680x5760",  NULL },
-         { "8320x6240",  NULL },
-         { "8960x6720",  NULL },
-         { "9600x7200",  NULL },
-         { "10240x7680", NULL },
-         { "10880x8160", NULL },
-         { "11520x8640", NULL },
-         { "12160x9120", NULL },
-         { "12800x9600", NULL },
          { NULL, NULL },
       },
-#ifdef LOW_RES
-      "320x240",
-#else
       "640x480",
-#endif
    },
    {
       CORE_OPTION_NAME "_screen_rotation",
@@ -233,12 +210,30 @@ struct retro_core_option_v2_definition option_defs_us[] = {
 #endif
          { NULL, NULL },
       },
-#if defined(LOW_END)
       "per-strip (fast, least accurate)",
-#else
-      "per-triangle (normal)",
-#endif
    },
+   {
+      CORE_OPTION_NAME "_sh4clock",
+      "SH4 CPU under/overclock (Restart)",
+      NULL,
+     "Change the SH4 main CPU clock from the default 200 MHz. Underclocking may help slow platforms. Overclocking may increase the frame rate for some games. Use with caution.",    
+      NULL,
+      NULL,
+      {
+         { "d20", "100mhz" },
+         { "d18", "110mhz" },
+         { "d16", "125mhz" },
+         { "d14", "145mhz" },
+         { "d12", "165mhz" },
+         { "d10", "200mhz" },
+         { "d9",  "220mhz" },
+         { "d8",  "250mhz" },
+         { "d7",  "285mhz" },
+         { "d6",  "333mhz" },
+         { NULL, NULL },
+      },
+      "d12",
+   },          
    {
       CORE_OPTION_NAME "_gdrom_fast_loading",
       "GD-ROM Fast Loading (inaccurate)",
@@ -251,11 +246,7 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "enabled",  NULL },
          { NULL, NULL },
       },
-#ifdef LOW_END
       "enabled",
-#else
-      "disabled",
-#endif
    },
    {/* TODO: needs explanation */
       CORE_OPTION_NAME "_mipmapping",
@@ -297,7 +288,7 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "disabled", NULL },
          { NULL, NULL },
       },
-      "enabled",
+      "disabled",
    },
    {
       CORE_OPTION_NAME "_widescreen_hack",
@@ -340,11 +331,7 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "VGA (RGB)",      NULL },
          { NULL, NULL },
       },
-#ifdef LOW_END
       "VGA (RGB)",
-#else
-      "TV (Composite)",
-#endif
    },
    {
       CORE_OPTION_NAME "_broadcast",
@@ -361,7 +348,7 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "PAL",     "PAL (World)" },
          { NULL, NULL },
       },
-      "Default",
+      "NTSC",
    },
    {
       CORE_OPTION_NAME "_framerate",
@@ -391,7 +378,7 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "Europe",  NULL },
          { NULL, NULL },
       },
-      "Default",
+      "USA",
    },
    {
       CORE_OPTION_NAME "_language",
@@ -410,7 +397,7 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "Italian",  NULL },
          { NULL, NULL },
       },
-      "Default",
+      "English",
    },
    {
       CORE_OPTION_NAME "_div_matching",
@@ -504,11 +491,7 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "enabled",  NULL },
          { NULL, NULL },
       },
-#ifdef LOW_END
       "disabled",
-#else
-      "enabled",
-#endif
    },
    {
       CORE_OPTION_NAME "_anisotropic_filtering",
@@ -525,7 +508,7 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "16",  NULL },
          { NULL, NULL },
       },
-      "4",
+      "disabled",
    },
    {
       CORE_OPTION_NAME "_pvr2_filtering",
@@ -624,7 +607,7 @@ struct retro_core_option_v2_definition option_defs_us[] = {
       CORE_OPTION_NAME "_synchronous_rendering",
       "Synchronous Rendering",
       NULL,
-      "Waits for the GPU to finish rendering the previous frame instead of dropping the current one. Note: This setting only applies when 'Threaded Rendering' is enabled.",
+      "Waits for the GPU to finish rendering the previous frame instead of dropping the current one. Note: This setting only applies when 'Threaded Rendering' is enabled. Performance cost",
       NULL,
       NULL,
       {
@@ -632,11 +615,7 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "enabled",  NULL },
          { NULL, NULL },
       },
-#ifdef LOW_END
       "disabled",
-#else
-      "enabled",
-#endif
    },
    {
       CORE_OPTION_NAME "_delay_frame_swapping",

@@ -1129,7 +1129,7 @@ _end:
 	}
 	// Boost dynarec always
 	/*if (mmu_enabled())*/
-		blk->guest_cycles *= 1.25f;
+	blk->guest_cycles = blk->guest_cycles * settings.dreamcast.sh4clock;
 
 	//make sure we don't use wayy-too-many cycles
 	blk->guest_cycles = std::min(blk->guest_cycles,max_cycles);
