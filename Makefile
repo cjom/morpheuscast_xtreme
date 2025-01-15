@@ -228,6 +228,32 @@ else ifneq (,$(findstring rpi,$(platform)))
 		CORE_DEFINES += -DLOW_END
 	endif
 
+# ARM64 TRIMUI BRICK 
+else ifeq ($(platform), brick)
+ 	EXT ?= so
+ 	TARGET := $(TARGET_NAME)_libretro.$(EXT)
+ 	SHARED += -shared -Wl,--version-script=link.T
+ 	fpic = -fPIC
+ 	LIBS += -lrt
+ 	ARM_FLOAT_ABI_HARD = 0
+ 	FORCE_GLES = 1
+ 	SINGLE_PREC_FLAGS = 1
+	HAVE_LTCG = 0
+	HAVE_OPENMP = 0
+  	CFLAGS += -Ofast \
+		-fuse-linker-plugin \
+		-fno-stack-protector -fno-ident -fomit-frame-pointer \
+		-fmerge-all-constants -ffast-math -funroll-all-loops \
+		-mcpu=cortex-a53 -mtune=cortex-a53
+	CXXFLAGS += $(CFLAGS)
+	LDFLAGS += -mcpu=cortex-a53 -mtune=cortex-a53 -Ofast -flto -fuse-linker-plugin
+ 	PLATFORM_EXT := unix
+	CORE_DEFINES += -DLOW_END
+ 	WITH_DYNAREC=arm64
+	PLATFORM_EXT := unix
+ 	HAVE_GENERIC_JIT = 0
+	HAVE_VULKAN = 1
+
 # Classic Platforms #####################
 # Platform affix = classic_<ISA>_<µARCH>
 #########################################
