@@ -231,29 +231,27 @@ else ifneq (,$(findstring rpi,$(platform)))
 # ARM64 TRIMUI BRICK 
 else ifeq ($(platform), brick)
  	EXT ?= so
- 	TARGET := $(TARGET_NAME)_libretro.$(EXT)
- 	SHARED += -shared -Wl,--version-script=link.T
-	CC_AS    = ${CC_PREFIX}${CC} #The ngen_arm.S must be compiled with gcc, not as
- 	fpic = -fPIC
- 	LIBS += -lrt
- 	ARM_FLOAT_ABI_HARD = 0
- 	FORCE_GLES = 1
- 	SINGLE_PREC_FLAGS = 1
-	HAVE_LTCG = 0
-	HAVE_OPENMP = 0
-  	CFLAGS += -Ofast \
-		-fuse-linker-plugin \
-		-fno-stack-protector -fno-ident -fomit-frame-pointer \
-		-fmerge-all-constants -ffast-math -funroll-all-loops \
-		-mcpu=cortex-a53 -mtune=cortex-a53
-	CXXFLAGS += $(CFLAGS)
-	LDFLAGS += -mcpu=cortex-a53 -mtune=cortex-a53 -Ofast -flto -fuse-linker-plugin
- 	PLATFORM_EXT := unix
-	CORE_DEFINES += -DLOW_END
- 	WITH_DYNAREC=arm64
+	CC_AS    = ${CC_PREFIX}${CC} #The ngen_arm.S must be compiled with gcc
+	TARGET := $(TARGET_NAME)_libretro.$(EXT)
+	SHARED += -shared -Wl,--version-script=link.T
+	LDFLAGS +=  -Wl,--no-undefined
+	fpic = -fPIC
+	LIBS += -lrt
+	ARM_FLOAT_ABI_HARD = 0
+	FORCE_GLES = 1
+	SINGLE_PREC_FLAGS = 1
+	CPUFLAGS += -march=armv8-a
+	CPUFLAGS += -DHOST_CPU=0x20000006 -DTARGET_LINUX_ARMv8 -frename-registers -DNOSSE -D__NEON_OPT
+	CFLAGS += -O2 -mcpu=cortex-a53 -mtune=cortex-a53 $(CPUFLAGS)
+	CXXFLAGS += -O2 -mcpu=cortex-a53 -mtune=cortex-a53 $(CPUFLAGS)
+	ASFLAGS += $(CFLAGS) -c -frename-registers -fno-strict-aliasing -ffast-math -ftree-vectorize
 	PLATFORM_EXT := unix
- 	HAVE_GENERIC_JIT = 0
-	HAVE_VULKAN = 1
+	WITH_DYNAREC=arm64
+	HAVE_GENERIC_JIT = 0
+	HAVE_VULKAN = 0
+	HAVE_LTCG = 0
+	CORE_DEFINES += -DLOW_END
+	LDFLAGS += -static-libgcc -static-libstdc++
 
 # Classic Platforms #####################
 # Platform affix = classic_<ISA>_<µARCH>
