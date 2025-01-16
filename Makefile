@@ -233,6 +233,7 @@ else ifeq ($(platform), brick)
  	EXT ?= so
  	TARGET := $(TARGET_NAME)_libretro.$(EXT)
  	SHARED += -shared -Wl,--version-script=link.T
+	CC_AS    = ${CC_PREFIX}${CC} #The ngen_arm.S must be compiled with gcc, not as
  	fpic = -fPIC
  	LIBS += -lrt
  	ARM_FLOAT_ABI_HARD = 0
@@ -413,6 +414,7 @@ else ifeq ($(platform), arm64_cortex_a53_gles2)
 	TARGET := $(TARGET_NAME)_libretro.$(EXT)
 	SHARED += -shared -Wl,--version-script=link.T
 	LDFLAGS +=  -Wl,--no-undefined
+	CC_AS    = ${CC_PREFIX}${CC} #The ngen_arm.S must be compiled with gcc, not as
 	fpic = -fPIC
 	LIBS += -lrt
 	ARM_FLOAT_ABI_HARD = 0
