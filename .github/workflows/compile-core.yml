@@ -22,7 +22,7 @@ jobs:
 
       - name: Compile core
         run: |
-          make -j$(nproc) platform=sun8i CC=arm-linux-gnueabihf-gcc CXX=arm-linux-gnueabihf-g++ AS=arm-linux-gnueabihf-gcc
+          make -j$(nproc) platform=sun8i ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
