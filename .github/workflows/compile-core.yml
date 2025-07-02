@@ -1,0 +1,31 @@
+name: Compile km_morpheuscast_xtreme
+on:
+  workflow_dispatch:
+  push:
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+jobs:
+  build-core:
+    runs-on: ubuntu-latest
+    container: node:latest
+    steps:
+      - name: Install needed tools
+        run: |
+          dpkg --add-architecture armhf
+          apt-get update
+          apt-get upgrade
+          apt-get install --assume-yes build-essential bc git gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf zlib1g-dev libgles2-mesa-dev libgles2-mesa-dev:armhf
+
+      - name: Checkout current repository
+        uses: actions/checkout@v4
+
+      - name: Compile core
+        run: |
+          make -j$(nproc) platform=sun8i CC="arm-linux-gnueabihf-gcc" CXX="arm-linux-gnueabihf-g++" AS="arm-linux-gnueabihf-gcc -c"
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: km_morpheuscast_xtreme_libretro
+          path: ./*_libretro.so
