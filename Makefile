@@ -22,7 +22,6 @@ HAVE_CHD         ?= 1
 HAVE_CLANG       ?= 0
 HAVE_CDROM       ?= 0
 ENABLE_MODEM     ?= 1
-CROSS_COMPILE    ?=
 
 TARGET_NAME   := km_morpheuscast_xtreme
 
