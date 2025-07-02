@@ -1,56 +1,52 @@
-DEBUG         := 0
-DEBUG_ASAN    := 0
-DEBUG_UBSAN   := 0
-NO_REND       := 0
-HAVE_GL       := 1
-HAVE_GL2      := 0
-HAVE_OIT      ?= 0
-HAVE_VULKAN   := 0
-HAVE_CORE     := 0
-NO_THREADS    := 0
-NO_EXCEPTIONS := 0
-NO_NVMEM      := 0
-NO_VERIFY     := 1
-HAVE_LTCG     ?= 0
-HAVE_GENERIC_JIT := 1
-HAVE_GL3      := 0
-FORCE_GLES    := 0
-STATIC_LINKING:= 0
-HAVE_TEXUPSCALE := 0
-HAVE_OPENMP   := 0
-HAVE_CHD      := 1
-HAVE_CLANG    ?= 0
-HAVE_CDROM    := 0
-ENABLE_MODEM  := 1
+DEBUG            ?= 0
+DEBUG_ASAN       ?= 0
+DEBUG_UBSAN      ?= 0
+NO_REND          ?= 0
+HAVE_GL          ?= 1
+HAVE_GL2         ?= 0
+HAVE_OIT         ?= 0
+HAVE_VULKAN      ?= 0
+HAVE_CORE        ?= 0
+NO_THREADS       ?= 0
+NO_EXCEPTIONS    ?= 0
+NO_NVMEM         ?= 0
+NO_VERIFY        ?= 1
+HAVE_LTCG        ?= 1
+HAVE_GENERIC_JIT ?= 1
+HAVE_GL3         ?= 0
+FORCE_GLES       ?= 0
+STATIC_LINKING   ?= 0
+HAVE_TEXUPSCALE  ?= 1
+HAVE_OPENMP      ?= 0
+HAVE_CHD         ?= 1
+HAVE_CLANG       ?= 0
+HAVE_CDROM       ?= 0
+ENABLE_MODEM     ?= 1
 
 TARGET_NAME   := km_morpheuscast_xtreme
 
 ifeq ($(HAVE_CLANG),1)
-	CXX      = ${CC_PREFIX}clang++
-	CC       = ${CC_PREFIX}clang
+	CXX      ?= ${CROSS_COMPILE}clang++
+	CC       ?= ${CROSS_COMPILE}clang
 	SHARED   := -fuse-ld=lld
 else
-	CXX      ?= ${CC_PREFIX}g++
-	CC       ?= ${CC_PREFIX}gcc
+	CXX      ?= ${CROSS_COMPILE}g++
+	CC       ?= ${CROSS_COMPILE}gcc
 	SHARED   :=
 endif
 ifeq ($(HAVE_LTCG),1)
 	SHARED   += -flto
 endif
 
-ifneq (${AS},)
-	CC_AS := ${AS}
-endif
-CC_AS    ?= ${CC_PREFIX}as
+CC_AS    ?= ${CROSS_COMPILE}as
 
-MFLAGS   := 
-ASFLAGS  := 
-LDFLAGS  :=
-LDFLAGS_END :=
-INCFLAGS :=
-LIBS     :=
-CFLAGS   := 
-CXXFLAGS :=
+#MFLAGS   :=
+#ASFLAGS  :=
+#LDFLAGS  :=
+#INCFLAGS :=
+#LIBS     :=
+CFLAGS   += -std=gnu99
+CXXFLAGS += -std=gnu++11
 
 GIT_VERSION := " $(shell git rev-parse --short HEAD || echo unknown)"
 ifneq ($(GIT_VERSION)," unknown")
@@ -124,7 +120,7 @@ ifeq ($(STATIC_LINKING),1)
 endif
 
 # Unix
-ifneq (,$(findstring unix,$(platform)))
+ifneq (,$(findstring NOunix,$(platform)))
 	EXT    ?= so
 	TARGET := $(TARGET_NAME)_libretro.$(EXT)
 	SHARED += -shared -Wl,--version-script=link.T
@@ -163,7 +159,7 @@ ifneq (,$(findstring unix,$(platform)))
 else ifneq (,$(findstring rpi,$(platform)))
 	EXT    ?= so
 	TARGET := $(TARGET_NAME)_libretro.$(EXT)
-	SHARED += -shared -Wl,--version-script=link.T
+	SHARED += -shared -Wl,--version-script=link.T -Wl,--as-needed -Wl,--no-undefined
 	fpic = -fPIC
 	LIBS += -lrt
 	ARM_FLOAT_ABI_HARD = 1
@@ -1161,7 +1157,7 @@ LIBS     += -lm
 PREFIX        ?= /usr/local
 
 ifneq (,$(findstring arm, $(ARCH)))
-	CC_AS    = ${CC_PREFIX}${CC} #The ngen_arm.S must be compiled with gcc, not as
+	CC_AS    = ${CROSS_COMPILE}gcc #The ngen_arm.S must be compiled with gcc, not as
 	ASFLAGS  += $(CFLAGS)
 endif
 
