@@ -1177,6 +1177,9 @@ endif
 
 clean:
 	rm -f $(OBJECTS) $(TARGET)
+	rm -f core/rec-ARM/rec_arm.o
+	rm -f core/rec-ARM/ngen_arm.o
+	rm -f core/libretro-common/glsym/glsym_es2.o
 
 
 # Final safeguard to remove any stray LTO flags
