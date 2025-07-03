@@ -593,7 +593,7 @@ extern const u32 ICacheSize=1024*1024;
 u8 ARM7_TCB[ICacheSize+4096];
 #elif defined(__linux__) || defined(HAVE_LIBNX)
 
-u8 ARM7_TCB[ICacheSize+4096] __attribute__((section(".text")));
+u8 ARM7_TCB[ICacheSize+4096] __attribute__((section(".bss.sh4")));
 
 #elif defined(__APPLE__)
 u8 ARM7_TCB[ICacheSize+4096] __attribute__((section("__TEXT, .text")));

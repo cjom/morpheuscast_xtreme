@@ -820,9 +820,9 @@ protected:
 	std::unordered_map<u64, Texture> cache;
 	// Only use TexU and TexV from TSP in the cache key
 	//     TexV : 7, TexU : 7
-	const TSP TSPTextureCacheMask = { { 7, 7 } };
+	const TSP TSPTextureCacheMask = { 63 };
 	//     TexAddr : 0x1FFFFF, Reserved : 0, StrideSel : 0, ScanOrder : 1, PixelFmt : 7, VQ_Comp : 1, MipMapped : 1
-	const TCW TCWTextureCacheMask = { { 0x1FFFFF, 0, 0, 1, 7, 1, 1 } };
+	const TCW TCWTextureCacheMask = { 0xFC1FFFFF };
 };
 
 void ReadFramebuffer(PixelBuffer<u32>& pb, int& width, int& height);

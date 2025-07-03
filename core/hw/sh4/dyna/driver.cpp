@@ -30,7 +30,7 @@ u8 SH4_TCB[CODE_SIZE + TEMP_CODE_SIZE + 4096]
 #elif defined(__linux__) || defined(__HAIKU__) || \
       defined(__FreeBSD__) || defined(__DragonFly__) || \
 	  defined(HAVE_LIBNX)
-	__attribute__((section(".text")));
+	__attribute__((section(".bss.sh4")));
 #elif defined(__MACH__)
 	__attribute__((section("__TEXT,.text")));
 #else
