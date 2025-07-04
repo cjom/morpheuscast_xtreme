@@ -1125,7 +1125,7 @@ LIBS     += -lm
 PREFIX        ?= /usr/local
 
 ifneq (,$(findstring arm, $(ARCH)))
-	CC_AS    = ${CROSS_COMPILE}gcc #The ngen_arm.S must be compiled with gcc, not as
+	CC_AS    = $(CC)
 	ASFLAGS  += $(CFLAGS)
 endif
 
