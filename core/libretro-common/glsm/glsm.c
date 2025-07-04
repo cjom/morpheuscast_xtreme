@@ -25,6 +25,10 @@
 #include <glsym/glsym.h>
 #include <glsm/glsm.h>
 
+#ifndef GLdouble
+#define GLdouble GLfloat
+#endif
+
 #ifndef GL_DEPTH_CLAMP
 #define GL_DEPTH_CLAMP                    0x864F
 #define GL_RASTERIZER_DISCARD             0x8C89
@@ -122,7 +126,7 @@ struct gl_cached_state
    struct
    {
       bool used;
-      GLdouble depth;
+      GLfloat depth;
    } cleardepth;
 
    struct
@@ -454,7 +458,7 @@ void rglReadBuffer(GLenum mode)
  * Core in:
  * OpenGLES  : 2.0
  */
-void rglClearDepth(GLdouble depth)
+void rglClearDepth(GLfloat depth)
 {
 #ifdef GLSM_DEBUG
    log_cb(RETRO_LOG_INFO, "glClearDepth.\n");
