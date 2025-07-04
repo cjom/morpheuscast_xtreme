@@ -8,21 +8,14 @@ env:
 jobs:
   build-core:
     runs-on: ubuntu-latest
-    container: chokogroup/chokogroup:debian-10-glibc-2.28
+    container: chokogroup/chokogroup:ubuntu-18.10-glibc-2.28
     steps:
-      - name: Install needed tools
-        run: |
-          dpkg --add-architecture armhf
-          apt-get update
-          apt-get upgrade
-          apt-get install --assume-yes build-essential bc git gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf zlib1g-dev libgles2-mesa-dev libgles2-mesa-dev:armhf
-
       - name: Checkout current repository
         uses: actions/checkout@v4
 
       - name: Compile core
         run: |
-          make -j$(nproc) platform=sun8i ARCH=arm CC=arm-linux-gnueabihf-gcc CXX=arm-linux-gnueabihf-g++ AS=arm-linux-gnueabihf-gcc CFLAGS+=" -mfpu=neon-vfpv4 -mfloat-abi=hard" CXXFLAGS+=" -mfpu=neon-vfpv4 -mfloat-abi=hard"
+          make -j$(nproc) platform=sun8i ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
