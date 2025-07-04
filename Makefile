@@ -11,7 +11,6 @@ NO_THREADS       ?= 0
 NO_EXCEPTIONS    ?= 0
 NO_NVMEM         ?= 0
 NO_VERIFY        ?= 1
-HAVE_LTCG        ?= 1
 HAVE_GENERIC_JIT ?= 1
 HAVE_GL3         ?= 0
 FORCE_GLES       ?= 0
@@ -33,9 +32,6 @@ else
 	CXX      ?= ${CROSS_COMPILE}g++
 	CC       ?= ${CROSS_COMPILE}gcc
 	SHARED   :=
-endif
-ifeq ($(HAVE_LTCG),1)
-	SHARED   += -flto
 endif
 
 CC_AS    ?= ${CROSS_COMPILE}as
@@ -245,7 +241,6 @@ else ifeq ($(platform), brick)
 	WITH_DYNAREC=arm64
 	HAVE_GENERIC_JIT = 0
 	HAVE_VULKAN = 0
-	HAVE_LTCG = 0
 	CORE_DEFINES += -DLOW_END
 	LDFLAGS += -static-libgcc -static-libstdc++
 
@@ -263,10 +258,8 @@ else ifeq ($(platform), classic_armv7_a7)
 	ARM_FLOAT_ABI_HARD = 1
 	FORCE_GLES = 1
 	SINGLE_PREC_FLAGS = 1
-	HAVE_LTCG = 0
 	HAVE_OPENMP = 1
 	CFLAGS += -Ofast \
-	-flto=4 -fwhole-program -fuse-linker-plugin \
 	-fdata-sections -ffunction-sections -Wl,--gc-sections \
 	-fno-stack-protector -fno-ident -fomit-frame-pointer \
 	-falign-functions=1 -falign-jumps=1 -falign-loops=1 \
@@ -303,16 +296,14 @@ else ifeq ($(platform), classic_armv8_a35)
 	ARM_FLOAT_ABI_HARD = 1
 	FORCE_GLES = 1
 	SINGLE_PREC_FLAGS = 1
-	HAVE_LTCG = 0
 	HAVE_OPENMP = 0
 	CFLAGS += -Ofast \
-	-fuse-linker-plugin \
 	-fno-stack-protector -fno-ident -fomit-frame-pointer \
 	-fmerge-all-constants -ffast-math -funroll-all-loops \
 	-marm -mcpu=cortex-a35 -mfpu=neon-fp-armv8 -mfloat-abi=hard
 	CXXFLAGS += $(CFLAGS)
 	ASFLAGS += $(CFLAGS)
-	LDFLAGS += -marm -mcpu=cortex-a35 -mfpu=neon-fp-armv8 -mfloat-abi=hard -Ofast -flto -fuse-linker-plugin
+	LDFLAGS += -marm -mtune=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard -Ofast
 	PLATFORM_EXT := unix
 	WITH_DYNAREC = arm
 	HAVE_GENERIC_JIT = 0
@@ -374,16 +365,14 @@ else ifeq ($(platform), sun8i_legacy)
 	ARM_FLOAT_ABI_HARD = 1
 	FORCE_GLES = 1
 	SINGLE_PREC_FLAGS = 1
-	HAVE_LTCG = 0
 	HAVE_OPENMP = 0
 	CFLAGS += -Ofast \
-	-flto -fuse-linker-plugin \
 	-fno-stack-protector -fno-ident -fomit-frame-pointer \
 	-fmerge-all-constants -ffast-math -funroll-all-loops \
 	-marm -mtune=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard
 	CXXFLAGS += $(CFLAGS)
 	ASFLAGS += $(CFLAGS)
-	LDFLAGS += -marm -mtune=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard -Ofast -flto -fuse-linker-plugin
+	LDFLAGS += -marm -mtune=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard -Ofast
 	ifeq ($(shell echo `$(CC) -dumpversion` "< 4.9" | bc -l), 1)
 		CFLAGS += -march=armv7-a
 		LDFLAGS += -march=armv7-a
@@ -422,7 +411,6 @@ else ifeq ($(platform), arm64_cortex_a53_gles2)
 	WITH_DYNAREC=arm64
 	HAVE_GENERIC_JIT = 0
 	HAVE_VULKAN = 0
-	HAVE_LTCG = 0
 	CORE_DEFINES += -DLOW_END
 
 #######################################
@@ -446,7 +434,6 @@ else ifeq ($(platform), odroidc4)
 	WITH_DYNAREC=arm64
 	HAVE_GENERIC_JIT = 0
 	HAVE_VULKAN = 0
-	HAVE_LTCG = 0
 
 #######################################
 
@@ -468,10 +455,6 @@ else ifeq ($(platform), arm64)
 	PLATFORM_EXT := unix
 	WITH_DYNAREC=arm64
 	HAVE_GENERIC_JIT = 0
-	HAVE_LTCG = 0
-	LDFLAGS := $(filter-out -flto, $(LDFLAGS))
-	CFLAGS := $(filter-out -flto, $(CFLAGS))
-	CXXFLAGS := $(filter-out -flto, $(CXXFLAGS))
 #######################################
 
 # nvidia developer jetson nano kit (jetson-nano)
@@ -493,10 +476,6 @@ else ifeq ($(platform), jetson-nano)
 	WITH_DYNAREC=arm64
 	HAVE_GENERIC_JIT = 0
 	HAVE_VULKAN = 1
-	HAVE_LTCG = 0
-	LDFLAGS := $(filter-out -flto, $(LDFLAGS))
-	CFLAGS := $(filter-out -flto, $(CFLAGS))
-	CXXFLAGS := $(filter-out -flto, $(CXXFLAGS))
 
 # Nintendo Switch (Libnx)
 else ifeq ($(platform), libnx)
@@ -511,7 +490,6 @@ else ifeq ($(platform), libnx)
    HAVE_GENERIC_JIT = 0
    STATIC_LINKING = 1
    ENABLE_MODEM = 0
-   HAVE_LTCG = 0
    NO_NVMEM = 1
    # stubs
    SOURCES_C += $(CORE_DIR)/core/deps/switch/stubs.c
@@ -535,7 +513,6 @@ else ifeq ($(platform), odroid-n2)
 	PLATFORM_EXT := unix
 	WITH_DYNAREC=arm64
 	HAVE_GENERIC_JIT = 0
-	HAVE_LTCG = 0
 	
 	# Libre Computer La Frite
 else ifeq ($(platform), mali-drm-gles2)
@@ -553,7 +530,6 @@ else ifeq ($(platform), mali-drm-gles2)
 	PLATFORM_EXT := unix
 	WITH_DYNAREC=arm64
 	HAVE_GENERIC_JIT = 0
-	HAVE_LTCG = 0
 
 # Amlogic S905/S905X/S912 (AMLGXBB/AMLGXL/AMLGXM) e.g. Khadas VIM1/2 / S905X2 (AMLG12A) & S922X/A311D (AMLG12B) e.g. Khadas VIM3 - 32-bit userspace
 else ifneq (,$(findstring AMLG,$(platform)))
@@ -602,7 +578,6 @@ else ifneq (,$(findstring RK,$(platform)))
   FORCE_GLES = 1
   SINGLE_PREC_FLAGS = 1
   CPUFLAGS += -DNO_ASM -DARM_ASM -frename-registers -ftree-vectorize
-  HAVE_LTCG = 0
 
   ifneq (,$(findstring RK33,$(platform)))
     CFLAGS += -march=armv8-a+crc -mfpu=neon-fp-armv8
@@ -655,7 +630,6 @@ else ifeq ($(platform), rockpro64)
 	PLATFORM_EXT := unix
 	WITH_DYNAREC=arm
 	HAVE_GENERIC_JIT = 0
-	HAVE_LTCG = 0
 
 # Tinkerboard
 else ifeq ($(platform), tinkerboard)
@@ -686,7 +660,6 @@ else ifneq (,$(findstring odroid,$(platform)))
 	ARM_FLOAT_ABI_HARD = 1
 	FORCE_GLES = 1
 	SINGLE_PREC_FLAGS = 1
-	HAVE_LTCG = 0
 
 	CPUFLAGS += -DNO_ASM -DARM_ASM -frename-registers -ftree-vectorize
 	CFLAGS += -marm -mfloat-abi=hard $(CPUFLAGS)
@@ -950,7 +923,6 @@ endif
 
 ifeq ($(WITH_DYNAREC), $(filter $(WITH_DYNAREC), x86_64 x64))
 	HOST_CPU_FLAGS = -DHOST_CPU=$(HOST_CPU_X64)
-	HAVE_LTCG = 0
 endif
 
 ifeq ($(WITH_DYNAREC), x86)
@@ -992,7 +964,6 @@ RZDCY_CFLAGS += $(HOST_CPU_FLAGS)
 include Makefile.common
 
 ifeq ($(WITH_DYNAREC), x86)
-	HAVE_LTCG = 0
 endif
 
 ifeq ($(DEBUG_ASAN),1)
@@ -1024,10 +995,7 @@ else
 	CORE_DEFINES   += -DNDEBUG
 	LDFLAGS        += -DNDEBUG
 
-	ifeq ($(HAVE_LTCG), 1)
-		CORE_DEFINES   += -flto
 	endif
-endif
 
 ifeq ($(HAVE_GL3), 1)
 	HAVE_CORE = 1
@@ -1157,7 +1125,7 @@ LIBS     += -lm
 PREFIX        ?= /usr/local
 
 ifneq (,$(findstring arm, $(ARCH)))
-	CC_AS    = $(CC) #The ngen_arm.S must be compiled with gcc, not as
+	CC_AS    = ${CROSS_COMPILE}gcc #The ngen_arm.S must be compiled with gcc, not as
 	ASFLAGS  += $(CFLAGS)
 endif
 
@@ -1170,11 +1138,6 @@ endif
 
 ifeq ($(PGO_USE),1)
 	CFLAGS += -fprofile-use
-endif
-
-ifeq ($(LTO_TEST),1)
-	CFLAGS += -flto -fwhole-program 
-	LDFLAGS +=-flto -fwhole-program 
 endif
 
 CFLAGS     += $(fpic)
@@ -1214,4 +1177,12 @@ endif
 
 clean:
 	rm -f $(OBJECTS) $(TARGET)
+	rm -f core/rec-ARM/rec_arm.o
+	rm -f core/rec-ARM/ngen_arm.o
+	rm -f core/libretro-common/glsym/glsym_es2.o
 
+
+# Final safeguard to remove any stray LTO flags
+CFLAGS := $(filter-out -flto -fuse-linker-plugin -fwhole-program,$(CFLAGS))
+CXXFLAGS := $(filter-out -flto -fuse-linker-plugin -fwhole-program,$(CXXFLAGS))
+LDFLAGS := $(filter-out -flto -fuse-linker-plugin -fwhole-program,$(LDFLAGS))
