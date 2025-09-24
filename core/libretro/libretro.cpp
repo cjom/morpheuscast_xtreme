@@ -578,33 +578,71 @@ static void update_variables(bool first_startup)
       DEBUG_LOG(COMMON, "Got size: %u x %u.\n", screen_width, screen_height);
    }
 
-   var.key = CORE_OPTION_NAME "_sh4clock";
+var.key = CORE_OPTION_NAME "_sh4clock";
 
-      if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
-      {
-
-         if (!strcmp(var.value, "d20"))
-            settings.dreamcast.sh4clock = 2.0;
-         else if (!strcmp(var.value, "d18"))
-            settings.dreamcast.sh4clock = 1.8;
-         else if (!strcmp(var.value, "d16"))
-            settings.dreamcast.sh4clock = 1.6;
-         else if (!strcmp(var.value, "d14"))
-            settings.dreamcast.sh4clock = 1.4;         
-         else if (!strcmp(var.value, "d12"))
-            settings.dreamcast.sh4clock = 1.2;
-         else if (!strcmp(var.value, "d10"))
-            settings.dreamcast.sh4clock = 1.0;
-          else if (!strcmp(var.value, "d9"))
-            settings.dreamcast.sh4clock = 0.9;
-          else if (!strcmp(var.value, "d8"))
-            settings.dreamcast.sh4clock = 0.8;
-          else if (!strcmp(var.value, "d7"))
-            settings.dreamcast.sh4clock = 0.7;
-          else if (!strcmp(var.value, "d6"))
-            settings.dreamcast.sh4clock = 0.6;
-      }
-
+if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+{
+   if (!strcmp(var.value, "d35"))
+      settings.dreamcast.sh4clock = 3.5;
+   else if (!strcmp(var.value, "d34"))
+      settings.dreamcast.sh4clock = 3.4;
+   else if (!strcmp(var.value, "d33"))
+      settings.dreamcast.sh4clock = 3.3;
+   else if (!strcmp(var.value, "d32"))
+      settings.dreamcast.sh4clock = 3.2;
+   else if (!strcmp(var.value, "d31"))
+      settings.dreamcast.sh4clock = 3.1;
+   else if (!strcmp(var.value, "d30"))
+      settings.dreamcast.sh4clock = 3.0;
+   else if (!strcmp(var.value, "d29"))
+      settings.dreamcast.sh4clock = 2.9;
+   else if (!strcmp(var.value, "d28"))
+      settings.dreamcast.sh4clock = 2.8;
+   else if (!strcmp(var.value, "d27"))
+      settings.dreamcast.sh4clock = 2.7;
+   else if (!strcmp(var.value, "d26"))
+      settings.dreamcast.sh4clock = 2.6;
+   else if (!strcmp(var.value, "d25"))
+      settings.dreamcast.sh4clock = 2.5;
+   else if (!strcmp(var.value, "d24"))
+      settings.dreamcast.sh4clock = 2.4;
+   else if (!strcmp(var.value, "d23"))
+      settings.dreamcast.sh4clock = 2.3;
+   else if (!strcmp(var.value, "d22"))
+      settings.dreamcast.sh4clock = 2.2;
+   else if (!strcmp(var.value, "d21"))
+      settings.dreamcast.sh4clock = 2.1;
+   else if (!strcmp(var.value, "d20"))
+      settings.dreamcast.sh4clock = 2.0;
+   else if (!strcmp(var.value, "d19"))
+      settings.dreamcast.sh4clock = 1.9;
+   else if (!strcmp(var.value, "d18"))
+      settings.dreamcast.sh4clock = 1.8;
+   else if (!strcmp(var.value, "d17"))
+      settings.dreamcast.sh4clock = 1.7;
+   else if (!strcmp(var.value, "d16"))
+      settings.dreamcast.sh4clock = 1.6;
+   else if (!strcmp(var.value, "d15"))
+      settings.dreamcast.sh4clock = 1.5;
+   else if (!strcmp(var.value, "d14"))
+      settings.dreamcast.sh4clock = 1.4;
+   else if (!strcmp(var.value, "d13"))
+      settings.dreamcast.sh4clock = 1.3;
+   else if (!strcmp(var.value, "d12"))
+      settings.dreamcast.sh4clock = 1.2;
+   else if (!strcmp(var.value, "d11"))
+      settings.dreamcast.sh4clock = 1.1;
+   else if (!strcmp(var.value, "d10"))
+      settings.dreamcast.sh4clock = 1.0;
+   else if (!strcmp(var.value, "d9"))
+      settings.dreamcast.sh4clock = 0.9;
+   else if (!strcmp(var.value, "d8"))
+      settings.dreamcast.sh4clock = 0.8;
+   else if (!strcmp(var.value, "d7"))
+      settings.dreamcast.sh4clock = 0.7;
+   else if (!strcmp(var.value, "d6"))
+      settings.dreamcast.sh4clock = 0.6;
+}
 
    var.key = CORE_OPTION_NAME "_cpu_mode";
 
